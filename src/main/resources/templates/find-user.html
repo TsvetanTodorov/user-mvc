@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Find User</title>
+    <link rel="stylesheet" th:href="@{/css/find-user.css}">
+</head>
+<body>
+
+<h1>Find User By ID</h1>
+
+<form class="user-form" th:action="@{/users/user-details}" th:method="GET">
+    <label for="userId">Enter User ID:</label>
+    <input type="text" id="userId" name="userId" required>
+    <button type="submit">Find</button>
+</form>
+
+</body>
+</html>

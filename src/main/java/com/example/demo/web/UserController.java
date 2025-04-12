@@ -8,11 +8,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
+
+import java.util.UUID;
 
 @Controller
 @RequestMapping("/users")
@@ -25,7 +24,6 @@ public class UserController {
         this.userClient = userClient;
     }
 
-
     @GetMapping("/create")
     public ModelAndView showCreateUserPage() {
 
@@ -35,7 +33,6 @@ public class UserController {
 
         return modelAndView;
     }
-
 
     @PostMapping
     public String createUser(@ModelAttribute UserCreateRequest userCreateRequest, Model model) {
@@ -50,5 +47,38 @@ public class UserController {
             return "error";
         }
     }
+
+    @GetMapping("/user-details")
+    public String getUserById(@RequestParam("userId") UUID userId, Model model) {
+        try {
+            // Call the Feign Client method and get the ResponseEntity
+            ResponseEntity<UserResponse> responseEntity = userClient.getUserById(userId);
+
+            if (responseEntity.getStatusCode().is2xxSuccessful()) {
+                // Extract the UserResponse from the ResponseEntity
+                UserResponse userResponse = responseEntity.getBody();
+
+                // Add the user to the model to display in the next page
+                model.addAttribute("user", userResponse);
+
+                // Return the view to display user details
+                return "user-details";  // This refers to the 'user-details.html' template
+            } else {
+                // Handle error, if status code is not 2xx
+                model.addAttribute("error", "User not found or invalid ID.");
+                return "error";
+            }
+        } catch (Exception e) {
+            // Handle exception (e.g., network error, invalid UUID, etc.)
+            model.addAttribute("error", "An error occurred while fetching the user details.");
+            return "error";
+        }
+    }
+
+    @GetMapping("/find")
+    public String showFindUserForm() {
+        return "find-user";
+    }
+
 }
 

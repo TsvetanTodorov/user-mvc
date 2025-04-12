@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
     <title>User Info</title>
+    <link rel="stylesheet" th:href="@{/css/user-info.css}">
 </head>
 <body>
 
@@ -13,6 +14,9 @@
     <p><strong>Email:</strong> <span th:text="${userResponse.email}"></span></p>
     <p><strong>Phone Number:</strong> <span th:text="${userResponse.phoneNumber}"></span></p>
     <p><strong>Date of Birth:</strong> <span th:text="${userResponse.dateOfBirth}"></span></p>
+</div>
+<div style="margin-top: 30px;">
+    <a th:href="@{/main-menu}" class="back-button">Back to Main Menu</a>
 </div>
 </body>
 </html>

@@ -1,0 +1,88 @@
+/* Body Styling */
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #a0d5d3; /* Soft teal background */
+    color: #333; /* Dark text for readability */
+    text-align: center;
+    padding: 40px 0;
+}
+
+/* Heading Styling */
+h1 {
+    font-size: 2.5rem;
+    color: #2c3e50; /* Dark navy blue for the title */
+    margin-bottom: 30px;
+}
+
+/* Form Container Styling (Centered in the middle of the screen) */
+.form-container {
+    background-color: #f4f1e1; /* Sandy white form background */
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 600px; /* Max width for the form */
+    margin: 0 auto;
+    text-align: left;
+    position: absolute;
+    top: 50%; /* Center vertically */
+    left: 50%; /* Center horizontally */
+    transform: translate(-50%, -50%); /* Offset the form's size to truly center it */
+    border: 1px solid #b0c9c7; /* Soft teal border for the form */
+}
+
+/* Label Styling */
+.form-container label {
+    font-weight: bold;
+    margin-bottom: 5px;
+    display: inline-block;
+    color: #333; /* Dark text color for readability */
+}
+
+/* Input Styling */
+.form-container input {
+    width: 100%;
+    max-width: 400px; /* Reduced max width for the input fields */
+    padding: 10px; /* Reduced padding for a tighter fit */
+    margin-bottom: 20px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    font-size: 1rem;
+    color: #333;
+    box-sizing: border-box; /* Ensures padding is included in the width calculation */
+}
+
+.form-container input:focus {
+    outline: none;
+    border-color: #3498db; /* Blue border on focus for contrast */
+    box-shadow: 0 0 8px rgba(52, 152, 219, 0.2);
+}
+
+/* Submit Button Styling */
+.form-container button {
+    background-color: #3498db; /* Medium blue for the button */
+    color: white;
+    padding: 12px 20px;
+    border: none;
+    border-radius: 5px;
+    font-size: 1.1rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.form-container button:hover {
+    background-color: #2980b9; /* Darker blue on hover */
+}
+
+/* Responsive design for smaller screens */
+@media (max-width: 600px) {
+    .form-container {
+        padding: 20px;
+        width: 90%; /* Make it slightly more fluid on smaller screens */
+        top: 20%; /* Adjust the top offset for better positioning */
+    }
+
+    .form-container input {
+        max-width: 100%; /* Allow the inputs to fill the available width on smaller screens */
+    }
+}

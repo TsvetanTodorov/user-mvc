@@ -2,26 +2,14 @@
 <html lang="en">
 <head>
     <title>Create User</title>
-    <style>
-        .form-container {
-            display: none;
-            margin-top: 20px;
-        }
-    </style>
-    <script>
-        function toggleForm() {
-            const form = document.getElementById("userForm");
-            form.style.display = form.style.display === "none" ? "block" : "none";
-        }
-    </script>
+    <link rel="stylesheet" th:href="@{/css/create-user.css}">
 </head>
 <body>
 
 <h1>User Management</h1>
 
-<button onclick="toggleForm()">Create User</button>
-
-<div id="userForm" class="form-container">
+<!-- Create User Form (will show immediately without toggle) -->
+<div class="form-container">
     <form th:action="@{/users}" th:method="POST" th:object="${userCreateRequest}">
         <label>First Name:</label><br>
         <input type="text" name="firstName" th:field="*{firstName}" required><br><br>
