@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Edit User</title>
+    <link rel="stylesheet" th:href="@{/css/edit-user.css}">
+</head>
+<body>
+
+<h1>Edit User</h1>
+
+<form th:action="@{/users/update-user}" th:object="${user}" method="post" id="updateUserForm">
+    <input type="hidden" th:field="*{id}"/>
+
+    <div class="form-group">
+        <label for="firstName">First Name:</label>
+        <input type="text" id="firstName" th:field="*{firstName}" required/>
+    </div>
+
+    <div class="form-group">
+        <label for="lastName">Last Name:</label>
+        <input type="text" id="lastName" th:field="*{lastName}" required/>
+    </div>
+
+    <div class="form-group">
+        <label for="email">Email:</label>
+        <input type="email" id="email" th:field="*{email}" required/>
+    </div>
+
+    <div class="form-group">
+        <label for="phoneNumber">Phone Number:</label>
+        <input type="text" id="phoneNumber" th:field="*{phoneNumber}" required/>
+    </div>
+
+    <button type="submit">Update User</button>
+</form>
+<div class="actions">
+    <a href="/users" class="back-btn">
+        <i class="fa fa-arrow-left"></i> Back to User List
+    </a>
+</div>
+
+<script>
+
+    document.getElementById("updateUserForm").addEventListener("submit", function (event) {
+        event.preventDefault();
+
+        const form = event.target;
+        const action = form.action;
+        const method = "PATCH";
+
+
+        const formData = new FormData(form);
+
+
+        fetch(action, {
+            method: method,
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(Object.fromEntries(formData.entries())),
+        })
+            .then(response => response.json())
+            .then(data => {
+                window.location.href = "/users";
+            })
+            .catch(error => {
+
+                console.error('Error:', error);
+            });
+    });
+</script>
+
+</body>
+</html>

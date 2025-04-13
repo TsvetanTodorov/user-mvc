@@ -2,15 +2,17 @@ package com.example.demo.web;
 
 import com.example.demo.user.client.UserClient;
 import com.example.demo.user.dto.UserCreateRequest;
+import com.example.demo.user.dto.UserEditRequest;
 import com.example.demo.user.dto.UserResponse;
+import feign.FeignException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.util.List;
 import java.util.UUID;
 
 @Controller
@@ -24,61 +26,95 @@ public class UserController {
         this.userClient = userClient;
     }
 
-    @GetMapping("/create")
-    public ModelAndView showCreateUserPage() {
+    @GetMapping
+    public ModelAndView showMainMenu() {
+
+        List<UserResponse> users = userClient.getAllUsers().getBody();
 
         ModelAndView modelAndView = new ModelAndView();
-        modelAndView.setViewName("create-user");
-        modelAndView.addObject("userCreateRequest", UserCreateRequest.builder().build());
+        modelAndView.addObject("users", users);
+        modelAndView.setViewName("users");
 
         return modelAndView;
     }
 
+    @GetMapping("/create-user")
+    public String showCreateUserForm(Model model) {
+
+        model.addAttribute("userCreateRequest", UserCreateRequest.builder().build());
+
+        return "create-user";
+    }
+
+
+    @GetMapping("/edit-user/{id}")
+    public String editUser(@PathVariable("id") UUID id, Model model) {
+
+        UserResponse user = userClient.getUserById(id).getBody();
+        model.addAttribute("user", user);
+
+        return "edit-user";
+    }
+
+    @DeleteMapping("/delete-user/{id}")
+    public String deleteUser(@PathVariable("id") UUID id) {
+        userClient.deleteUser(id);
+
+        return "redirect:/users";
+    }
+
+    @GetMapping("/user-info/{id}")
+    public String getUserInfo(@PathVariable("id") UUID id, Model model) {
+        UserResponse user = userClient.getUserById(id).getBody();
+        model.addAttribute("user", user);
+
+        return "user-info";
+    }
+
     @PostMapping
-    public String createUser(@ModelAttribute UserCreateRequest userCreateRequest, Model model) {
-
-        ResponseEntity<UserResponse> response = userClient.createUser(userCreateRequest);
-
-        if (response.getStatusCode() == HttpStatus.CREATED) {
-            model.addAttribute("userResponse", response.getBody());
-            return "user-info";
-        } else {
-            model.addAttribute("errorMessage", "Error creating user. Please try again.");
-            return "error";
-        }
-    }
-
-    @GetMapping("/user-details")
-    public String getUserById(@RequestParam("userId") UUID userId, Model model) {
+    public String createUser(@ModelAttribute UserCreateRequest userCreateRequest, RedirectAttributes redirectAttributes) {
         try {
-            // Call the Feign Client method and get the ResponseEntity
-            ResponseEntity<UserResponse> responseEntity = userClient.getUserById(userId);
+            UserResponse createdUser = userClient.createUser(userCreateRequest).getBody();
+            redirectAttributes.addFlashAttribute("user", createdUser);
 
-            if (responseEntity.getStatusCode().is2xxSuccessful()) {
-                // Extract the UserResponse from the ResponseEntity
-                UserResponse userResponse = responseEntity.getBody();
+            return "redirect:/users/user-info";
 
-                // Add the user to the model to display in the next page
-                model.addAttribute("user", userResponse);
+        } catch (FeignException.Conflict ex) {
+            String errorMessage = "User with the given email or phone number already exists.";
+            redirectAttributes.addFlashAttribute("error", errorMessage);
 
-                // Return the view to display user details
-                return "user-details";  // This refers to the 'user-details.html' template
-            } else {
-                // Handle error, if status code is not 2xx
-                model.addAttribute("error", "User not found or invalid ID.");
-                return "error";
-            }
-        } catch (Exception e) {
-            // Handle exception (e.g., network error, invalid UUID, etc.)
-            model.addAttribute("error", "An error occurred while fetching the user details.");
-            return "error";
+            return "redirect:/users/create-user";
         }
     }
 
-    @GetMapping("/find")
-    public String showFindUserForm() {
-        return "find-user";
+    @GetMapping("/user-info")
+    public String showUserDetails(Model model) {
+
+        UserResponse user = (UserResponse) model.getAttribute("user");
+
+        model.addAttribute("user", user);
+
+        return "user-info";
     }
+
+
+    @PatchMapping("/update-user")
+    public String updateUser(@RequestBody UserEditRequest dto) {
+
+        UUID userId = dto.getId();
+
+        UserEditRequest request = UserEditRequest.builder()
+                .firstName(dto.getFirstName())
+                .lastName(dto.getLastName())
+                .email(dto.getEmail())
+                .phoneNumber(dto.getPhoneNumber())
+                .build();
+
+        userClient.updateUser(userId, request);
+
+        return "redirect:/users";
+    }
+
 
 }
 
