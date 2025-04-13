@@ -35,7 +35,7 @@ This is a simple Spring MVC project designed for managing users, implementing th
 
 - **The first endpoint of the application provides a user list displayed in a table format. This table presents all the users currently stored in the system**
 
-![img.png](img.png)
+![img.png](images/img.png)
 
 - **At the top of the user list table, there is a "Create User" button. Clicking this button will redirect the user to a form where new user details can be entered.**
 
@@ -43,7 +43,7 @@ This is a simple Spring MVC project designed for managing users, implementing th
 
 ## 🚀 Create User
 
-![img_1.png](img_1.png)
+![img_1.png](images/img_1.png)
 
 - **Upon submission, the newly created user will be added to the system, and the user list will be updated accordingly.**
 
@@ -51,7 +51,7 @@ This is a simple Spring MVC project designed for managing users, implementing th
 
 ## 📝 User Details
 
-![img_2.png](img_2.png)
+![img_2.png](images/img_2.png)
 
 
 - **Upon successfully creating a user, the application will automatically redirect to the User Details page. This page provides a comprehensive view of the newly created user's information**
@@ -69,7 +69,7 @@ This is a simple Spring MVC project designed for managing users, implementing th
 
 - **On the User List page, each user in the table has an associated "Info" button. Clicking this button will provide detailed information about that specific user, allowing for a deeper view of their profile**
 
-![img_3.png](img_3.png)
+![img_3.png](images/img_3.png)
 
 ---
 
@@ -77,7 +77,7 @@ This is a simple Spring MVC project designed for managing users, implementing th
 
 - **On the User List page, each user in the table has an "Edit" button. Clicking this button will redirect you to a new view where you can modify the user’s details.**
 
-![img_4.png](img_4.png)
+![img_4.png](images/img_4.png)
 
 - **Once you have made the desired changes, you can click the "Update User" button to save the modifications. After the update is successful, the application will automatically redirect you back to the User List page, where the table will display the updated information for that user.**
 
