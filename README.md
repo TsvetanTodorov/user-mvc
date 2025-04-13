@@ -67,7 +67,7 @@ This is a simple Spring MVC project designed for managing users, implementing th
 
 ## 💼 User Info
 
-- **On the User List page, each user in the table has an associated "Info" button. Clicking this button will provide detailed information about that specific user, allowing for a deeper view of their profile**
+- **On the User List page, each user in the table has an associated "Info" button. Clicking this button will provide detailed information about that specific user, allowing for a deeper view of their profile.**
 
 ![img_3.png](images/img_3.png)
 
