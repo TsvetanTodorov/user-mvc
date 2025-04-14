@@ -29,7 +29,26 @@ This is a simple Spring MVC project designed for managing users, implementing th
 --- 
 
 
-## 🌐 API Endpoints
+# 🌐 API Endpoints
+
+## 🔐 Login Page
+
+### To access the application, please use the following default credentials:
+
+- **👤 Username: user**
+
+- **🔑 Password: 123123**
+
+![img.png](images/img_5.png)
+
+
+### Once logged in successfully, you will be redirected to the 📄 List Of Users page.
+
+### ⚠️ Make sure to enter the correct credentials to proceed.
+
+
+
+---
 
 ## 📄 List Of Users
 
